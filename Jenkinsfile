@@ -15,7 +15,12 @@ pipeline {
         stage('Docker Build') {
         agent any
         steps {
-        sh 'docker build -t shanem/spring-petclinic:latest .'
+            script{
+                if (!fileExists('Dockerfile')) {
+                        error("Dockerfile no encontrado")
+                    }
+                sh "docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} ."
+            }
         }
         }
     }
