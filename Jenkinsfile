@@ -1,13 +1,13 @@
 pipeline {
     agent none
     environment {
-        DOCKER_IMAGE = 'santi099/spring-petclinic' // Using your colleague’s image name for now
+        DOCKER_IMAGE = 'blazegd/spring-petclinic'
         DOCKER_TAG = 'latest'
     }
 
     stages {
         stage('Checkout') {
-            agent any // Specify an agent for this stage
+            agent any
             steps {
                 checkout([
                     $class: 'GitSCM',
