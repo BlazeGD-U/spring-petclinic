@@ -4,7 +4,7 @@ pipeline {
         stage('Maven Install') {
             agent {
                 docker {
-                    image 'maven:3.8.6-openjdk-17-slim'
+                    image 'maven:3.9.6-eclipse-temurin-17'
                     args '-u root'
                 }
             }
@@ -14,6 +14,7 @@ pipeline {
         }
     }
 }
+
 
 
 
