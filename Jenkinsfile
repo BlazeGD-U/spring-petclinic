@@ -1,12 +1,13 @@
 pipeline {
     agent none
     environment {
-        DOCKER_IMAGE = 'santi099/spring-petclinic' //profe me toco usar la imagen de mi compañero pq ami no me quizo crear y la del tutorial ya no existe 
+        DOCKER_IMAGE = 'santi099/spring-petclinic' // Using your colleague’s image name for now
         DOCKER_TAG = 'latest'
     }
 
     stages {
         stage('Checkout') {
+            agent any // Specify an agent for this stage
             steps {
                 checkout([
                     $class: 'GitSCM',
@@ -19,9 +20,7 @@ pipeline {
                 ])
             }
         }
-    }
 
-    stages {
         stage('Maven Install') {
             agent {
                 docker {
@@ -33,9 +32,8 @@ pipeline {
                 sh 'mvn clean install'
             }
         }
-    }
 
-    stage('Docker Build') {
+        stage('Docker Build') {
             agent any
             steps {
                 script {
@@ -62,9 +60,10 @@ pipeline {
                         echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
                         docker push ${DOCKER_IMAGE}:${DOCKER_TAG}
                     '''
-}
+                }
             }
         }
+    }
 
     post {
         always {
