@@ -19,6 +19,7 @@ pipeline {
                 ])
             }
         }
+    }
 
     stages {
         stage('Maven Install') {
@@ -70,7 +71,7 @@ pipeline {
         }
     }
 }
-}
+
 
 
 
