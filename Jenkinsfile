@@ -33,7 +33,9 @@ pipeline {
                 sh 'mvn clean install'
             }
         }
-        stage('Docker Build') {
+    }
+
+    stage('Docker Build') {
             agent any
             steps {
                 script {
@@ -60,10 +62,9 @@ pipeline {
                         echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
                         docker push ${DOCKER_IMAGE}:${DOCKER_TAG}
                     '''
-                }
+}
             }
         }
-    }
 
     post {
         always {
