@@ -1,7 +1,7 @@
 pipeline {
     agent none
     environment {
-        DOCKER_IMAGE = 'shanem/spring-petclinic'
+        DOCKER_IMAGE = 'santi099/spring-petclinic'
         DOCKER_TAG = 'latest'
     }
     stages {
