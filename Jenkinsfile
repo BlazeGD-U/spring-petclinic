@@ -1,26 +1,9 @@
 pipeline {
-    agent any
-
+    agent none
     environment {
-        DOCKER_IMAGE = 'blazegd/spring-petclinic'
+        DOCKER_IMAGE = 'shanem/spring-petclinic'
         DOCKER_TAG = 'latest'
     }
-
-    stages {
-        stage('Checkout') {
-            steps {
-                checkout([
-                    $class: 'GitSCM',
-                    branches: [[name: '*/main']],
-                    extensions: [],
-                    userRemoteConfigs: [[
-                        url: 'https://github.com/BlazeGD-U/spring-petclinic.git',
-                        credentialsId: 'github-token'
-                    ]]
-                ])
-            }
-        }
-
     stages {
         stage('Maven Install') {
             agent {
@@ -33,19 +16,17 @@ pipeline {
                 sh 'mvn clean install'
             }
         }
-
         stage('Docker Build') {
-        agent any
-        steps {
-            script{
-                if (!fileExists('Dockerfile')) {
+            agent any
+            steps {
+                script {
+                    if (!fileExists('Dockerfile')) {
                         error("Dockerfile no encontrado")
                     }
-                sh "docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} ."
+                    sh "docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} ."
+                }
             }
         }
-        }
-    }
     }
 }
 
